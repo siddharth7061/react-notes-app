@@ -1,4 +1,5 @@
 import { v4 as uuid } from "uuid";
+import { findNotes } from "../utils/findNotes";
 export const notesReducer = (state, { type, payload }) => {
   switch (type) {
     case "TITLE":
@@ -38,8 +39,11 @@ export const notesReducer = (state, { type, payload }) => {
       };
 
     case "ARCHIVE":
-      const notesInArchive = state.archive.find(({ id }) => id === payload.id);
-      const noteInNotes = state.notes.find(({ id }) => id === payload.id);
+      // Fteching note from the Archive array
+      const notesInArchive = findNotes(state.archive, payload.id);
+
+      // Fetching note from the
+      const noteInNotes = findNotes(state.notes, payload.id);
 
       // Archiving
       if (noteInNotes) {
