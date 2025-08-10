@@ -1,7 +1,9 @@
 import { useNotes } from "../../context/notes-context";
+import { Important } from "../../pages/Important";
+import { findNotes } from "../../utils/findNotes";
 
-export const NotesCard = ({ id, title, text, isPinned }) => {
-  const { notesDispatch, archive } = useNotes();
+export const NotesCard = ({ id, title, text, isPinned, page }) => {
+  const { notesDispatch, important, archive } = useNotes();
   const onPinClick = (id) => {
     notesDispatch({
       type: "PIN",
@@ -15,6 +17,16 @@ export const NotesCard = ({ id, title, text, isPinned }) => {
       payload: { id },
     });
   };
+
+  const onImportantClick = (id) => {
+    notesDispatch({
+      type: "IMPORTANT",
+      payload: { id },
+    });
+  };
+
+  // Find note in important to manipulate the icon
+  const isImportant = findNotes(important, id) ? true : false;
   return (
     <div
       key={id}
@@ -22,26 +34,49 @@ export const NotesCard = ({ id, title, text, isPinned }) => {
     >
       <div className="flex justify-between border-b-1 border-slate-300">
         <p>{title}</p>
-        <button onClick={() => onPinClick(id)}>
-          <span
-            className={
-              isPinned ? "material-icons" : "material-symbols-outlined"
-            }
-          >
-            push_pin
-          </span>
-        </button>
+        <div>
+          {page === "home" ? (
+            <button onClick={() => onPinClick(id)}>
+              <span
+                className={
+                  isPinned ? "material-icons" : "material-symbols-outlined"
+                }
+              >
+                push_pin
+              </span>
+            </button>
+          ) : (
+            <></>
+          )}
+          {page === "home" || page === "important" ? (
+            <button onClick={() => onImportantClick(id)}>
+              <span
+                className={
+                  isImportant ? "material-icons" : "material-symbols-outlined"
+                }
+              >
+                label_important
+              </span>
+            </button>
+          ) : (
+            <></>
+          )}
+        </div>
       </div>
       <div className="flex flex-col">
         <p className="mr-auto">{text}</p>
         <div className="ml-auto">
-          <button onClick={() => onArchiveClick(id)}>
-            {archive.find((note) => note.id === id) ? (
-              <span class="material-icons">archive</span>
-            ) : (
-              <span class="material-symbols-outlined">archive</span>
-            )}
-          </button>
+          {page == "home" || page == "archive" ? (
+            <button onClick={() => onArchiveClick(id)}>
+              {archive.find((note) => note.id === id) ? (
+                <span class="material-icons">archive</span>
+              ) : (
+                <span class="material-symbols-outlined">archive</span>
+              )}
+            </button>
+          ) : (
+            <></>
+          )}
           <button>
             <span {...{ class: "material-symbols-outlined" }}>delete</span>
           </button>

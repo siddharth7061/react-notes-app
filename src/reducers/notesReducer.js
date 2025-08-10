@@ -38,11 +38,11 @@ export const notesReducer = (state, { type, payload }) => {
         ),
       };
 
-    case "ARCHIVE":
+    case "ARCHIVE": {
       // Fteching note from the Archive array
-      const notesInArchive = findNotes(state.archive, payload.id);
+      const noteInArchive = findNotes(state.archive, payload.id);
 
-      // Fetching note from the
+      // Fetching note from the Notes array
       const noteInNotes = findNotes(state.notes, payload.id);
 
       // Archiving
@@ -52,20 +52,49 @@ export const notesReducer = (state, { type, payload }) => {
           archive: [...state.archive, noteInNotes],
           notes: state.notes.filter(({ id }) => id !== payload.id),
         };
-      } else if (notesInArchive) {
+      } else if (noteInArchive) {
         // Unarchiving
         return {
           ...state,
           notes: [
             ...state.notes,
             {
-              ...notesInArchive,
+              ...noteInArchive,
               isPinned: false,
             },
           ],
           archive: state.archive.filter(({ id }) => id !== payload.id),
         };
       }
+    }
+
+    case "IMPORTANT": {
+      // Fetchig note from Important notes array
+      const noteInImportant = findNotes(state.important, payload.id);
+
+      // Remove Note from important
+      if (noteInImportant) {
+        return {
+          ...state,
+          important: state.important.filter(({ id }) => id !== payload.id),
+        };
+      } else {
+        // Add note to important
+
+        // Fetching note from the Notes array
+        const note =
+          findNotes(state.notes, payload.id) ||
+          findNotes(state.archive, payload.id);
+
+        //return state as it is if not found anywhere
+        if (!note) return state;
+
+        return {
+          ...state,
+          important: [...state.important, note],
+        };
+      }
+    }
 
     default:
       return state;
