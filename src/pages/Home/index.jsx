@@ -75,16 +75,14 @@ export const Home = () => {
                   {pinnedNotes?.length > 0 &&
                     pinnedNotes.map(({ id, title, text, isPinned }) => {
                       return (
-                        <div className="mt-4">
-                          <NotesCard
-                            key={id}
-                            id={id}
-                            title={title}
-                            text={text}
-                            isPinned={isPinned}
-                            page={"home"}
-                          />
-                        </div>
+                        <NotesCard
+                          key={id}
+                          id={id}
+                          title={title}
+                          text={text}
+                          isPinned={isPinned}
+                          page={"home"}
+                        />
                       );
                     })}
                 </div>
@@ -101,16 +99,14 @@ export const Home = () => {
               {otherNotes?.length > 0 &&
                 otherNotes.map(({ id, title, text, isPinned }) => {
                   return (
-                    <div className="mt-4">
-                      <NotesCard
-                        key={id}
-                        id={id}
-                        title={title}
-                        text={text}
-                        isPinned={isPinned}
-                        page={"home"}
-                      />
-                    </div>
+                    <NotesCard
+                      key={id}
+                      id={id}
+                      title={title}
+                      text={text}
+                      isPinned={isPinned}
+                      page={"home"}
+                    />
                   );
                 })}
             </div>

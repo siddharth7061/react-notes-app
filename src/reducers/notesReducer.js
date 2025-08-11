@@ -96,6 +96,30 @@ export const notesReducer = (state, { type, payload }) => {
       }
     }
 
+    case "BIN": {
+      // Fetching note from notes array
+      const noteInNotes = findNotes(state.notes, payload.id);
+      // Fteching note from bin array
+      const noteInBin = findNotes(state.bin, payload.id);
+
+      if (noteInNotes) {
+        // Delete Note
+        return {
+          ...state,
+          bin: [...state.bin, noteInNotes],
+          notes: state.notes.filter((note) => note.id !== payload.id),
+          archive: state.archive.filter((note) => note.id !== payload.id),
+          important: state.important.filter((note) => note.id !== payload.id),
+        };
+      } else {
+        return {
+          ...state,
+          notes: [...state.notes, noteInBin],
+          bin: state.bin.filter(({ id }) => id !== payload.id),
+        };
+      }
+    }
+
     default:
       return state;
   }

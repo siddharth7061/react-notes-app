@@ -25,12 +25,19 @@ export const NotesCard = ({ id, title, text, isPinned, page }) => {
     });
   };
 
+  const onDeleteClick = (id) => {
+    notesDispatch({
+      type: "BIN",
+      payload: { id },
+    });
+  };
+
   // Find note in important to manipulate the icon
   const isImportant = findNotes(important, id) ? true : false;
   return (
     <div
       key={id}
-      className="w-56 border border-dashed border-slate-400 p-2 rounded-md text-slate-800"
+      className="w-56 border border-dashed border-slate-400 p-2 rounded-md text-slate-800 mt-4"
     >
       <div className="flex justify-between border-b-1 border-slate-300">
         <p>{title}</p>
@@ -77,7 +84,7 @@ export const NotesCard = ({ id, title, text, isPinned, page }) => {
           ) : (
             <></>
           )}
-          <button>
+          <button onClick={() => onDeleteClick(id)}>
             <span {...{ class: "material-symbols-outlined" }}>delete</span>
           </button>
         </div>

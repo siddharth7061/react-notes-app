@@ -16,15 +16,13 @@ export const Important = () => {
             {important?.length > 0 &&
               important.map((note) => {
                 return (
-                  <div className="mt-4">
-                    <NotesCard
-                      key={note.id}
-                      id={note.id}
-                      title={note.title}
-                      text={note.text}
-                      page={"important"}
-                    />
-                  </div>
+                  <NotesCard
+                    key={note.id}
+                    id={note.id}
+                    title={note.title}
+                    text={note.text}
+                    page={"important"}
+                  />
                 );
               })}
           </div>
