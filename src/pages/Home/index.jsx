@@ -5,7 +5,7 @@ import { NotesCard } from "../../components/NotesCard";
 import { useNotes } from "../../context/notes-context";
 
 export const Home = () => {
-  const { title, text, notes, notesDispatch, archive } = useNotes();
+  const { title, text, notes, notesDispatch, archive, important } = useNotes();
   const onTitleChange = (e) => {
     notesDispatch({
       type: "TITLE",
@@ -31,7 +31,7 @@ export const Home = () => {
     });
   };
 
-  console.log(archive);
+  // console.log(important);
 
   const pinnedNotes =
     notes?.length > 0 && notes.filter((note) => note.isPinned === true);
@@ -75,15 +75,14 @@ export const Home = () => {
                   {pinnedNotes?.length > 0 &&
                     pinnedNotes.map(({ id, title, text, isPinned }) => {
                       return (
-                        <div className="mt-4">
-                          <NotesCard
-                            key={id}
-                            id={id}
-                            title={title}
-                            text={text}
-                            isPinned={isPinned}
-                          />
-                        </div>
+                        <NotesCard
+                          key={id}
+                          id={id}
+                          title={title}
+                          text={text}
+                          isPinned={isPinned}
+                          page={"home"}
+                        />
                       );
                     })}
                 </div>
@@ -100,15 +99,14 @@ export const Home = () => {
               {otherNotes?.length > 0 &&
                 otherNotes.map(({ id, title, text, isPinned }) => {
                   return (
-                    <div className="mt-4">
-                      <NotesCard
-                        key={id}
-                        id={id}
-                        title={title}
-                        text={text}
-                        isPinned={isPinned}
-                      />
-                    </div>
+                    <NotesCard
+                      key={id}
+                      id={id}
+                      title={title}
+                      text={text}
+                      isPinned={isPinned}
+                      page={"home"}
+                    />
                   );
                 })}
             </div>
